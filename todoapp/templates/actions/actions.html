@@ -1,0 +1,42 @@
+    <!-- 9. Show Title names and Actions -->
+    <article class="flex {% if actions.is_done %} bg-pink-50 {% endif %} ">
+
+        <!-- 10. Show title names-->
+        <div class="w-4/5 py-3">
+            <p 
+                class="px-6 text-sm text-gray-900"
+                hx-get="/edit/{{actions.id}}/"
+                hx-target="this"
+                hx-swap="outerHTML"
+            > 
+                {{actions.task_title}} 
+            </p>
+        </div>
+
+        <!-- 11. Show actions -->
+        <div class="w-1/5 px-6 py-3 flex justify-end space-x-4">
+
+            {% if not actions.is_done %}
+                <form 
+                    hx-put="/update/{{actions.id}}"
+                    hx-target="closest article"
+                    hx-swap="outerHTML" 
+                >
+                    <button class="text-purple-300 hover:text-purple-400">Done</button>
+                </form> 
+            {% endif %}
+
+            <a 
+                href="#" 
+                class="text-purple-300 hover:text-purple-400"
+                hx-confirm="Are you sure?" 
+                hx-target="closest article"
+                hx-swap="outerHTML swap:1s"
+                hx-delete="/delete/{{actions.id}}"
+            >
+                Delete
+            </a>
+
+        </div>
+                    
+    </article>

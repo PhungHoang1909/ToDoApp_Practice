@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tailwind CSS Installation -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    {% comment %} HTMX Installation {% endcomment %}
+    <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+
+    <title>To Do App</title>
+</head>
+
+<!-- 1. Background for App -->
+<body class="bg-pink-100">
+
+    <!-- 2. Navbar to display Header/Title of the App -->
+    <nav class="flex items-center justify-center px-4 py-6 text-center bg-gradient-to-r from-green-200 to-blue-200">
+        <a href="/" class="text-3xl text-gray-800 font-bold">Phung Hoang - ToDo App</a>
+    </nav>
+
+    <!-- 3. A Div contains the content of the app -->
+    <div class="w-4/5 my-6 mx-auto p-2 lg:p-10 bg-white rounded-lg">
+
+        <!-- 4. Create a form contains input field and the button -->
+        <form 
+            class="flex mb-6 space-x-4"
+            hx-post="/add_task/"
+            hx-target="#todos"
+            hx-swap="afterend"
+        >
+
+            <!-- 5. Add Text Input -->
+            <input type="text" name="task_title" class="title flex-1 px-4 py-3 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300 focus:bg-white" placeholder="Enter your tasks here">
+
+            <!-- 6. Add Button -->
+            <button class="p-3 rounded-lg text-white bg-purple-300 hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:bg-purple-400">Add Task</button>
+
+        </form>
+
+        <!-- 7. Add Title for Title and Actions column -->
+        <div class="flex py-3 rounded-lg bg-gray-100">
+            <div class="w-4/5">
+                <p class="px-6 text-sm font-bold text-gray-700 uppercase">Tasks</p>
+            </div>
+        
+            <div class="hidden md:block w-1/5 px-6 text-right">
+                <p class="text-sm font-bold text-gray-700 uppercase">Actions</p>
+            </div>
+        </div>
+
+        <!-- 8. Display The content List and show Actions -->
+        <div class="divide-y divide-gray-300" id="todos">
+            {% for actions in todos %}
+                {% include 'actions/actions.html'%}
+            {% endfor %}
+        </div>
+
+    </div>
+
+</body>
+
+{% comment %} CSRF Token {% endcomment %}
+<script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    });
+
+    document.body.addEventListener('htmx:afterRequest', (event) => {
+        document.querySelector("input.title").value = '';
+    });
+</script>
+
+</html>
