@@ -3,6 +3,13 @@
 
         <!-- 10. Show title names-->
         <div class="w-4/5 py-3">
+
+    {% comment %} 
+        hx-get="/edit/{{actions.id}}/": Xác định URL để lấy dữ liệu khi nhấp vào.
+        hx-target="this": Xác định phần tử mục tiêu để thay thế nội dung.
+        hx-swap="outerHTML": Thay thế toàn bộ phần tử mục tiêu bằng nội dung mới.
+    {% endcomment %}
+
             <p 
                 class="px-6 text-sm text-gray-900"
                 hx-get="/edit/{{actions.id}}/"
@@ -17,6 +24,13 @@
         <div class="w-1/5 px-6 py-3 flex justify-end space-x-4">
 
             {% if not actions.is_done %}
+    {% comment %}
+        hx-put="/update/{{actions.id}}":. xác định URL dữ liệu được gửi đến khi form được submit: 
+        gửi dữ liệu đến URL được tạo với một id cụ thể từ đối tượng "actions".
+        hx-target="this": xác định (target) của kết quả khi hành động được thực hiện. 
+        "this" đề cập đến chính thẻ form. nội dung của thẻ form này sẽ được thay thế bằng nội dung mới từ phản hồi.
+        hx-swap="outerHTML": thẻ form sẽ được thay thế hoàn toàn bằng nội dung mới từ server
+    {% endcomment %}
                 <form 
                     hx-put="/update/{{actions.id}}"
                     hx-target="closest article"
@@ -34,6 +48,12 @@
                 hx-swap="outerHTML swap:1s"
                 hx-delete="/delete/{{actions.id}}"
             >
+    {% comment %} 
+        Hx-target=”closet form”: xác định target của kết quả: phần tử gần nhất có thẻ form
+        Hx-swap=…: kết quả từ server sẽ được thay thế cho toàn phần tử target trong 1s
+        Hx-delete: xác định URL mà dữ liệu sẽ được gửi đến để thực hiện hành động xóa. 
+        là một URL được tạo ra với một id cụ thể từ đối tượng "actions".
+    {% endcomment %}
                 Delete
             </a>
 

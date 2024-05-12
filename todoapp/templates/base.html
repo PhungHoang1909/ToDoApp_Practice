@@ -26,9 +26,13 @@
     <div class="w-4/5 my-6 mx-auto p-2 lg:p-10 bg-white rounded-lg">
 
         <!-- 4. Create a form contains input field and the button -->
+        {% comment %} 
+            Target:#todos. Xác định vị trí sẽ được thay thế thêm vào phần tử có id todos
+            Hx-swap=”afterend”:  cách thức phản hồi: chèn vào sau phần tử có id todos
+         {% endcomment %}
         <form 
             class="flex mb-6 space-x-4"
-            hx-post="/add_task/"
+            hx-post="/add_task/"  
             hx-target="#todos"
             hx-swap="afterend"
         >
